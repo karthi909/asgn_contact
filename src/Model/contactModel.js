@@ -3,22 +3,22 @@ const mongoose = require('mongoose')
 const contactSchema = new mongoose.Schema({
     name:{
         type:String,
-        requried: true,
+        required: true,
         unique: true,
     },
     phoneNumber:{
         type:Number,
-        requried: true,
+        required: true,
         unique: true
     },
     email:{
         type:String,
-        requried: true,
+        required: true,
         unique: true
     },
     password:{
         type:String,
-        requried: true
+        required: true
     },
     isDeleted:{
         type: Boolean,
