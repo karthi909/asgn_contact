@@ -16,6 +16,10 @@ const contactSchema = new mongoose.Schema({
         requried: true,
         unique: true
     },
+    password:{
+        type:String,
+        requried: true
+    },
     isDeleted:{
         type: Boolean,
         default: false

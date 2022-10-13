@@ -3,7 +3,7 @@ const contactModel = require('../Model/contactModel')
 const createContact = async (req, res) => {
     try {
         let data = req.body
-        let { name, phoneNumber, email } = data;
+        let { name, phoneNumber, email, password } = data;
 
         let newData = await contactModel.create(data);
         res.status(201).send({ status: true, msg: "Contact Created Successfully", data: newData })
@@ -17,7 +17,7 @@ const updateContact = async (req, res)=>{
     try{
         let contactId = req.params.contactId
         let data = req.body
-        let {name, phoneNumber, email} = data;
+        let {name, phoneNumber, email, password} = data;
 
         let newData = await contactModel.findByIdAndUpdate({_id:contactId },data,{new: true})
 
@@ -62,6 +62,30 @@ const postBulk = async (req, res)=>{
     }
 }
 
+const getSingleContact = async (req, res)=>{
+    try {
+        const contactId = req.query;
+
+        const con = await contactModel.findById({_id:contactId});
+
+        res.status(200).send({status: true, data:con})
+    } catch (err) {
+        res.status(500).send({ status: false, Error: err })
+    }
+}
+
+const getContact = async (req, res)=>{
+    try{
+
+        const {page = 1, limit = 2} = req.query
+        const contacts = await contactModel.find().limit(limit *1).skip((page-1)*limit);
+        if(contacts.length == 0) return res.status(404).send({status: false, msg:"No page Found"})
+        res.status(200).send({status: true, data:contacts})
+
+    } catch(err){
+        res.status(500).send({ status: false, Error: err })
+    }
+}
 
 
 
@@ -69,3 +93,5 @@ module.exports.createContact = createContact
 module.exports.updateContact = updateContact
 module.exports.deleteContact = deleteContact
 module.exports.postBulk = postBulk
+module.exports.getContact = getContact
+module.exports.getSingleContact = getSingleContact
