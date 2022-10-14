@@ -152,7 +152,7 @@ const getSingleContact = async (req, res)=>{
             return res.send({ msg: "Not Authorized" })
         }
 
-        const con = await contactModel.findById({_id:contactId, isDeleted: false});
+        const con = await contactModel.findById({_id:contactId, isDeleted: false}).select({_id:0, password: 0, isDeleted: 0, createdAt: 0, updatedAt: 0, __v: 0 });
 
         res.status(200).send({status: true, data:con})
     } catch (err) {
@@ -166,7 +166,7 @@ const getContact = async (req, res)=>{
         const {page = 1, limit = 2} = req.query
 
 
-        const contacts = await contactModel.find({isDeleted: false}).limit(limit *1).skip((page-1)*limit);
+        const contacts = await contactModel.find({isDeleted: false}).select({_id:0, password: 0, isDeleted: 0, createdAt: 0, updatedAt: 0, __v: 0 }).limit(limit *1).skip((page-1)*limit);
 
 
 
